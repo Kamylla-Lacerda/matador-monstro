@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Matador de Monstro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="area hud">
+            <div class="score">
+                <h1>Jogador</h1>
+                <div class="life-bar">
+                    <div class="life" :class="{danger: playerLife < 20}" :style="{width: playerLife + '%'}"></div>
+                </div>
+                <div>{{playerLife}}%</div>
+            </div>
+            <div class="score">
+                <h1>Mosntro</h1>
+                <div class="life-bar">
+                    <div class="life" :class="{danger: monsterLife < 20}" :style="{width: monsterLife + '%'}"></div>
+                </div>
+                <div>{{monsterLife}}%</div>
+            </div>
+        </div>
+
+        <div class="area result" v-if="hasResult">
+            <div style="color: green;" v-if="monsterLife == 0">
+                Você ganhou! :)
+            </div>
+            <div style="color: red;" v-if="playerLife == 0">
+                Você perdeu! :(
+            </div>
+        </div>
+
+        <div class="area buttons">
+            <div>
+                <template v-if="running">
+                    <button @click="attack(false)" class="attack">ATAQUE</button>
+                    <button @click="attack(true)" class="especial-attack">ATAQUE ESPECIAL</button>
+                    <button @click="healAndhurt()"class="heal">CURAR</button>
+                    <button class="give-up" @click="running = false">DESISTIR</button>
+                </template>
+                <button v-else class="new-game" @click="startGame()">NOVO JOGO</button>
+            </div>
+        </div>
+
+        <div v-if="logs.length" class="area logs">
+            <ul>
+                <li v-for="log in logs" :class="log.cls" class="log">
+                    {{log.text}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
